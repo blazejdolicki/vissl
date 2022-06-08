@@ -20,7 +20,7 @@ config:
     TRAIN:
       DATA_SOURCES: [disk_folder]
       DATASET_NAMES: [imagenet1k_folder]
-      BATCHSIZE_PER_REPLICA: 32
+      BATCHSIZE_PER_REPLICA: 64
       LABEL_TYPE: sample_index    # just an implementation detail. Label isn't used
       TRANSFORMS:
         - name: ImgReplicatePil
@@ -51,9 +51,8 @@ config:
   MODEL:
     TRUNK:
       NAME: resnet
-      RESNETS:
-        DEPTH: 50
-        ZERO_INIT_RESIDUAL: True
+      E2_RESNETS:
+        DEPTH: 18
     HEAD:
       PARAMS: [
         ["mlp", {"dims": [2048, 2048], "use_relu": True, "skip_last_layer_relu_bn": False}],
@@ -82,13 +81,13 @@ config:
       param_schedulers:
         lr:
           name: multistep
-          values: [0.03, 0.003, 0.0003]
-          milestones: [120, 160]
+          values: [ 0.03, 0.003, 0.0003 ]
+          milestones: [ 120, 160 ]
           update_interval: epoch
   DISTRIBUTED:
     BACKEND: nccl
     NUM_NODES: 1
-    NUM_PROC_PER_NODE: 8
+    NUM_PROC_PER_NODE: 1
     INIT_METHOD: tcp
     RUN_ID: auto
   MACHINE:
