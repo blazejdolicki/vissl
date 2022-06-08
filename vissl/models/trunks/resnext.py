@@ -10,7 +10,7 @@ from typing import List
 import torch
 import torch.nn as nn
 import torchvision.models as models
-from torchvision.models.resnet import Bottleneck
+from torchvision.models.resnet import Bottleneck, BasicBlock
 from vissl.config import AttrDict
 from vissl.data.collators.collator_helper import MultiDimensionalTensor
 from vissl.models.model_helpers import (
@@ -25,6 +25,7 @@ from vissl.models.trunks import register_model_trunk
 
 # For more depths, add the block config here
 BLOCK_CONFIG = {
+    18: (2, 2, 2, 2),
     50: (3, 4, 6, 3),
     101: (3, 4, 23, 3),
     152: (3, 8, 36, 3),
@@ -33,6 +34,7 @@ BLOCK_CONFIG = {
 
 
 class SUPPORTED_DEPTHS(int, Enum):
+    RN18 = 18
     RN50 = 50
     RN101 = 101
     RN152 = 152
@@ -91,7 +93,7 @@ class ResNeXt(nn.Module):
         )
 
         model = models.resnet.ResNet(
-            block=Bottleneck,
+            block=BasicBlock if self.depth == 18 else Bottleneck,
             layers=(n1, n2, n3, n4),
             zero_init_residual=self.zero_init_residual,
             groups=self.groups,

@@ -15,7 +15,14 @@ import rissl
 
 # For more depths, add the block config here
 BLOCK_CONFIG = {
-    50: (3, 4, 6, 3)
+    18: {
+            "block": rissl.models.e2_resnet.E2BasicBlock,
+            "layers": (2, 2, 2, 2)
+    },
+    50: {
+            "block": rissl.models.e2_resnet.E2Bottleneck,
+            "layers": (3, 4, 6, 3)
+    }
 }
 
 @register_model_trunk("e2_resnet")
@@ -51,16 +58,17 @@ class E2ResNet(nn.Module):
                             "restrict": self.trunk_config.restrict,
                             "flip": self.trunk_config.flip,
                             "fixparams": self.trunk_config.fixparams,
+                            "conv2triv":self.trunk_config.conv2triv,
                             "deltaorth": self.trunk_config.deltaorth}
 
         # Current implementation only supports ResNet50 and ResNext50, to add other models add arguments for
         # `block` and `layers` here and in config.
-        model = rissl.models.e2_resnet.E2ResNet(block=rissl.models.e2_resnet.E2Bottleneck,
-                         layers=BLOCK_CONFIG[self.depth],
-                         groups=self.groups,
-                         width_per_group=self.width_per_group,
-                         zero_init_residual=self.zero_init_residual,
-                         **equivariant_args)
+        model = rissl.models.e2_resnet.E2ResNet(block=BLOCK_CONFIG[self.depth]['block'],
+                                                layers=BLOCK_CONFIG[self.depth]['layers'],
+                                                groups=self.groups,
+                                                width_per_group=self.width_per_group,
+                                                zero_init_residual=self.zero_init_residual,
+                                                **equivariant_args)
 
         self.in_lifting_type = model.in_lifting_type
 
@@ -76,6 +84,7 @@ class E2ResNet(nn.Module):
                 ("layer2", model.layer2),
                 ("layer3", model.layer3),
                 ("layer4", model.layer4),
+                # ("grouppool", model.mp),
                 ("avgpool", model.avgpool),
                 ("flatten", Flatten(1)),
             ]
