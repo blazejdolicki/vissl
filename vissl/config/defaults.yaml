@@ -655,6 +655,7 @@ config:
         ZERO_INIT_RESIDUAL: False
         WIDTH_PER_GROUP: 64
         # Equivariant parameters
+        conv2triv: True # use conv2triv following Ceza for regular representations (CIFAR10)s
         N: 4
         F: 1.0
         sigma: 0.45
