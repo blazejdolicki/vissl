@@ -45,8 +45,8 @@ config:
     name: ""
   MODEL:
     TRUNK:
-      NAME: resnet
-      RESNETS:
+      NAME: e2_resnet
+      E2_RESNETS:
         DEPTH: 50
     HEAD:
       PARAMS: [
