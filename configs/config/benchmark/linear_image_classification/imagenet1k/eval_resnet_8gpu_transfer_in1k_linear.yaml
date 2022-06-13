@@ -48,8 +48,8 @@ config:
   METERS:
     name: accuracy_list_meter
     accuracy_list_meter:
-      num_meters: 5
-      topk_values: [1, 5]
+      num_meters: 1
+      topk_values: [1]
   TRAINER:
     TRAIN_STEP_NAME: standard_train_step
   MODEL:
