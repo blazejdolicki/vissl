@@ -79,7 +79,6 @@ config:
       num_meters: 5
       topk_values:
       - 1
-      - 5
     name: accuracy_list_meter
   MODEL:
     AMP_PARAMS:
@@ -89,7 +88,7 @@ config:
       FREEZE_TRUNK_ONLY: true
     HEAD:
       PARAMS:
-      - - eval_mlp
+      - - mlp
         - dims:
           - 512
           - 2
