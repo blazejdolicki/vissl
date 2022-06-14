@@ -1,12 +1,12 @@
 config:
   CHECKPOINT:
     AUTO_RESUME: true
-    CHECKPOINT_FREQUENCY: 1000
+    CHECKPOINT_FREQUENCY: 5
     CHECKPOINT_ITER_FREQUENCY: -1
   DATA:
     NUM_DATALOADER_WORKERS: 5
     TEST:
-      BATCHSIZE_PER_REPLICA: 256
+      BATCHSIZE_PER_REPLICA: 512
       DATASET_NAMES:
       - imagenet1k_folder
       DATA_SOURCES:
@@ -18,17 +18,8 @@ config:
       - name: CenterCrop
         size: 224
       - name: ToTensor
-      - mean:
-        - 0.485
-        - 0.456
-        - 0.406
-        name: Normalize
-        std:
-        - 0.229
-        - 0.224
-        - 0.225
     TRAIN:
-      BATCHSIZE_PER_REPLICA: 256
+      BATCHSIZE_PER_REPLICA: 512
       COPY_DESTINATION_DIR: /tmp/imagenet1k/
       COPY_TO_LOCAL_DISK: false
       DATASET_NAMES:
@@ -42,16 +33,20 @@ config:
       - name: RandomResizedCrop
         size: 224
       - name: RandomHorizontalFlip
+        p: 0.5
+      - name: RandomVerticalFlip
+        p: 0.5
+      - name: ImgRotatePil
+          num_angles: 4
+      - name: ColorJitter
+        brightness: [ 0.7490196078431373, 1.2509803921568627 ]
+        contrast: [ 0.25, 1.75 ]
+        saturation: [ 0.75, 1.25 ]
+        hue: [ -0.04, 0.04 ]
+      - name: RandomAffine
+        degrees: [ 0.0, 0.0 ]
+        translate: (0.041666666666666664, 0.041666666666666664)
       - name: ToTensor
-      - mean:
-        - 0.485
-        - 0.456
-        - 0.406
-        name: Normalize
-        std:
-        - 0.229
-        - 0.224
-        - 0.225
   DISTRIBUTED:
     BACKEND: nccl
     INIT_METHOD: tcp
@@ -76,7 +71,7 @@ config:
     DEVICE: gpu
   METERS:
     accuracy_list_meter:
-      num_meters: 5
+      num_meters: 1
       topk_values:
       - 1
     name: accuracy_list_meter
@@ -85,12 +80,12 @@ config:
       USE_AMP: false
     FEATURE_EVAL_SETTINGS:
       EVAL_MODE_ON: true
-      FREEZE_TRUNK_ONLY: true
+      EVAL_TRUNK_AND_HEAD: false
     HEAD:
       PARAMS:
       - - mlp
         - dims:
-          - 512
+          - 2048
           - 2
     SYNC_BN_CONFIG:
       CONVERT_BN_TO_SYNC_BN: false
@@ -103,22 +98,16 @@ config:
     momentum: 0.9
     name: sgd
     nesterov: true
-    num_epochs: 100
+    num_epochs: 1
     param_schedulers:
       lr:
         auto_lr_scaling:
           auto_scale: true
           base_lr_batch_size: 256
-          base_value: 30
-        milestones:
-        - 60
-        - 80
-        name: multistep
-        update_interval: epoch
+          base_value: 0.1
+        name: constant
         values:
-        - 30
-        - 3
-        - 0.3
+        - 0.1
     regularize_bias: true
     regularize_bn: false
     weight_decay: 0.0
