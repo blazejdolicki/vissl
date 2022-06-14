@@ -36,8 +36,8 @@ config:
         p: 0.5
       - name: RandomVerticalFlip
         p: 0.5
-      - name: ImgRotatePil
-          num_angles: 4
+      - name: DiscreteRotation
+        angles: [ 0,90,180,270 ]
       - name: ColorJitter
         brightness: [ 0.7490196078431373, 1.2509803921568627 ]
         contrast: [ 0.25, 1.75 ]
@@ -45,7 +45,7 @@ config:
         hue: [ -0.04, 0.04 ]
       - name: RandomAffine
         degrees: [ 0.0, 0.0 ]
-        translate: (0.041666666666666664, 0.041666666666666664)
+        translate: [ 0.041666666666666664, 0.041666666666666664 ]
       - name: ToTensor
   DISTRIBUTED:
     BACKEND: nccl
