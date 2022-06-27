@@ -35,6 +35,8 @@ config:
           radius_max: 2.0
         - name: RandomHorizontalFlip
           p: 0.5
+        - name: DiscreteRotation
+          angles: [ 0,90,180,270 ]
         - name: ToTensor
       COLLATE_FUNCTION: moco_collator
       MMAP_MODE: True
@@ -77,12 +79,10 @@ config:
       regularize_bias: True
       param_schedulers:
         lr:
-          name: constant
-# TODO Use multistep after testing
-#          name: multistep
-#          values: [ 0.03, 0.003, 0.0003 ]
-#          milestones: [ 120, 160 ]
-#          update_interval: epoch
+          name: multistep
+          values: [ 0.03, 0.003, 0.0003 ]
+          milestones: [ 120, 160 ]
+          update_interval: epoch
   DISTRIBUTED:
     BACKEND: nccl
     NUM_NODES: 1

@@ -19,7 +19,7 @@ config:
         size: 224
       - name: ToTensor
     TRAIN:
-      BATCHSIZE_PER_REPLICA: 256
+      BATCHSIZE_PER_REPLICA: 512
       COPY_DESTINATION_DIR: /tmp/imagenet1k/
       COPY_TO_LOCAL_DISK: false
       DATASET_NAMES:
@@ -102,7 +102,7 @@ config:
     param_schedulers:
       lr:
         auto_lr_scaling:
-          auto_scale: true
+          auto_scale: false
           base_lr_batch_size: 256
           base_value: 30
         milestones:

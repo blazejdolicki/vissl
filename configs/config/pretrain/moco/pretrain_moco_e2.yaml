@@ -26,7 +26,7 @@ config:
         - name: ImgReplicatePil
           num_times: 2
         - name: RandomResizedCrop
-          size: 224
+          size: 225
         - name: ImgPilColorDistortion
           strength: 0.5
         - name: ImgPilGaussianBlur
