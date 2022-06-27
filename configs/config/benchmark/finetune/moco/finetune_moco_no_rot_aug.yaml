@@ -1,0 +1,117 @@
+config:
+  CHECKPOINT:
+    AUTO_RESUME: true
+    CHECKPOINT_FREQUENCY: 5
+    CHECKPOINT_ITER_FREQUENCY: -1
+  DATA:
+    NUM_DATALOADER_WORKERS: 5
+    TEST:
+      BATCHSIZE_PER_REPLICA: 512
+      DATASET_NAMES:
+      - imagenet1k_folder
+      DATA_SOURCES:
+      - disk_folder
+      LABEL_TYPE: sample_index
+      TRANSFORMS:
+      - name: Resize
+        size: 256
+      - name: CenterCrop
+        size: 224
+      - name: ToTensor
+    TRAIN:
+      BATCHSIZE_PER_REPLICA: 512
+      COPY_DESTINATION_DIR: /tmp/imagenet1k/
+      COPY_TO_LOCAL_DISK: false
+      DATASET_NAMES:
+      - imagenet1k_folder
+      DATA_SOURCES:
+      - disk_folder
+      DROP_LAST: true
+      LABEL_TYPE: sample_index
+      MMAP_MODE: true
+      TRANSFORMS:
+      - name: RandomResizedCrop
+        size: 224
+      - name: RandomHorizontalFlip
+        p: 0.5
+      - name: RandomVerticalFlip
+        p: 0.5
+      - name: ColorJitter
+        brightness: [ 0.7490196078431373, 1.2509803921568627 ]
+        contrast: [ 0.25, 1.75 ]
+        saturation: [ 0.75, 1.25 ]
+        hue: [ -0.04, 0.04 ]
+      - name: RandomAffine
+        degrees: [ 0.0, 0.0 ]
+        translate: [ 0.041666666666666664, 0.041666666666666664 ]
+      - name: ToTensor
+  DISTRIBUTED:
+    BACKEND: nccl
+    INIT_METHOD: tcp
+    NUM_NODES: 1
+    NUM_PROC_PER_NODE: 1
+    RUN_ID: auto
+  HOOKS:
+    PERF_STATS:
+      MONITOR_PERF_STATS: true
+      ROLLING_BTIME_FREQ: 313
+    TENSORBOARD_SETUP:
+      EXPERIMENT_LOG_DIR: moco_v2_reference
+      FLUSH_EVERY_N_MIN: 20
+      LOG_PARAMS: false
+      USE_TENSORBOARD: true
+  LOG_FREQUENCY: 200
+  LOSS:
+    cross_entropy_multiple_output_single_target:
+      ignore_index: -1
+    name: cross_entropy_multiple_output_single_target
+  MACHINE:
+    DEVICE: gpu
+  METERS:
+    accuracy_list_meter:
+      num_meters: 1
+      topk_values:
+      - 1
+    name: accuracy_list_meter
+  MODEL:
+    AMP_PARAMS:
+      USE_AMP: false
+    FEATURE_EVAL_SETTINGS:
+      EVAL_MODE_ON: true
+      EVAL_TRUNK_AND_HEAD: false
+    HEAD:
+      PARAMS:
+      - - mlp
+        - dims:
+          - 512
+          - 2
+    SYNC_BN_CONFIG:
+      CONVERT_BN_TO_SYNC_BN: false
+    TRUNK:
+      NAME: resnet
+      RESNETS:
+        DEPTH: 18
+  MULTI_PROCESSING_METHOD: forkserver
+  OPTIMIZER:
+    momentum: 0.9
+    name: sgd
+    nesterov: true
+    num_epochs: 1
+    param_schedulers:
+      lr:
+        auto_lr_scaling:
+          auto_scale: false
+          base_lr_batch_size: 256
+          base_value: 0.1
+        name: constant
+        values:
+        - 0.1
+    regularize_bias: true
+    regularize_bn: false
+    weight_decay: 0.0
+  SEED_VALUE: 0
+  TEST_MODEL: true
+  TEST_ONLY: false
+  TRAINER:
+    TRAIN_STEP_NAME: standard_train_step
+  VERBOSE: false
