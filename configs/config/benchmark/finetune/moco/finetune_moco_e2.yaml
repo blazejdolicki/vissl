@@ -16,7 +16,7 @@ config:
       - name: Resize
         size: 256
       - name: CenterCrop
-        size: 224
+        size: 225
       - name: ToTensor
     TRAIN:
       BATCHSIZE_PER_REPLICA: 512
@@ -31,7 +31,7 @@ config:
       MMAP_MODE: true
       TRANSFORMS:
       - name: RandomResizedCrop
-        size: 224
+        size: 225
       - name: RandomHorizontalFlip
         p: 0.5
       - name: RandomVerticalFlip
