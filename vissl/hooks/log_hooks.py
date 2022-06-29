@@ -487,7 +487,9 @@ class LogLossMetricsCheckpointHook(ClassyHook):
                 logging.info(
                     f"[{mode}: {mode_num}] Saving checkpoint to {checkpoint_folder}"
                 )
+                task.base_model.eval()
                 model_state_dict = task.get_classy_state()
+                task.base_model.train()
 
                 # phase_idx is already incremented at the beginning of phase but if we
                 # are checkpointing at an iteration in the middle of phase, we should not
