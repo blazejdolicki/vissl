@@ -1,7 +1,7 @@
 config:
   CHECKPOINT:
     AUTO_RESUME: true
-    CHECKPOINT_FREQUENCY: 1000
+    CHECKPOINT_FREQUENCY: 1
     CHECKPOINT_ITER_FREQUENCY: -1
   DATA:
     NUM_DATALOADER_WORKERS: 5
@@ -99,19 +99,8 @@ config:
     num_epochs: 100
     param_schedulers:
       lr:
-        auto_lr_scaling:
-          auto_scale: false
-          base_lr_batch_size: 256
-          base_value: 30
-        milestones:
-        - 60
-        - 80
-        name: multistep
-        update_interval: epoch
-        values:
-        - 30
-        - 3
-        - 0.3
+        name: constant
+        value: 30
     regularize_bias: true
     regularize_bn: false
     weight_decay: 0.0
