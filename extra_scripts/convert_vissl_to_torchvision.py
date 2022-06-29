@@ -29,7 +29,7 @@ logging.basicConfig(level=logging.INFO, format=FORMAT, stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 
-def convert_and_save_model(args, replace_prefix, include_head=True):
+def convert_and_save_model(args, replace_prefix):
     assert g_pathmgr.exists(args.output_dir), "Output directory does NOT exist"
 
     # load the model
@@ -49,7 +49,7 @@ def convert_and_save_model(args, replace_prefix, include_head=True):
         model_trunk = model
     logger.info(f"Input model loaded. Number of params: {len(model_trunk.keys())}")
 
-    if include_head:
+    if args.include_head:
         model_head = model["classy_state_dict"]["base_model"]["model"]["heads"]
         model_head = replace_module_prefix(model_head, prefix="0.clf.0.", replace_with="fc.")
         model_trunk.update(model_head)
@@ -100,8 +100,7 @@ def main():
 
     args = parser.parse_args()
 
-    print("include_head", args.include_head)
-    convert_and_save_model(args, replace_prefix="_feature_blocks.", include_head=args.include_head)
+    convert_and_save_model(args, replace_prefix="_feature_blocks.")
 
 
 if __name__ == "__main__":
