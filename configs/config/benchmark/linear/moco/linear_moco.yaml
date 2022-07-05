@@ -30,7 +30,9 @@ config:
       LABEL_TYPE: sample_index
       MMAP_MODE: true
       TRANSFORMS:
-      - name: RandomResizedCrop
+      - name: Resize
+        size: 256
+      - name: CenterCrop
         size: 224
       - name: RandomHorizontalFlip
         p: 0.5
@@ -104,16 +106,16 @@ config:
         auto_lr_scaling:
           auto_scale: false
           base_lr_batch_size: 256
-          base_value: 30
+          base_value: 0.1
         milestones:
         - 60
         - 80
         name: multistep
         update_interval: epoch
         values:
-        - 30
-        - 3
-        - 0.3
+        - 0.1
+        - 0.01
+        - 0.001
     regularize_bias: true
     regularize_bn: false
     weight_decay: 0.0

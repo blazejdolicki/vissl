@@ -30,7 +30,9 @@ config:
       LABEL_TYPE: sample_index
       MMAP_MODE: true
       TRANSFORMS:
-      - name: RandomResizedCrop
+      - name: Resize
+        size: 256
+      - name: CenterCrop
         size: 224
       - name: RandomHorizontalFlip
         p: 0.5
