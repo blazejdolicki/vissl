@@ -13,10 +13,6 @@ config:
       - disk_folder
       LABEL_TYPE: sample_index
       TRANSFORMS:
-      - name: Resize
-        size: 256
-      - name: CenterCrop
-        size: 224
       - name: ToTensor
     TRAIN:
       BATCHSIZE_PER_REPLICA: 512
@@ -30,10 +26,6 @@ config:
       LABEL_TYPE: sample_index
       MMAP_MODE: true
       TRANSFORMS:
-      - name: Resize
-        size: 256
-      - name: CenterCrop
-        size: 224
       - name: RandomHorizontalFlip
         p: 0.5
       - name: RandomVerticalFlip
@@ -102,20 +94,20 @@ config:
     nesterov: true
     num_epochs: 100
     param_schedulers:
-      lr:
+      lr: # based on benchmark/linear/lr_linear_pcam_moco/14603/lr_30/tb_logs
         auto_lr_scaling:
           auto_scale: false
           base_lr_batch_size: 256
-          base_value: 0.1
+          base_value: 1
         milestones:
         - 60
         - 80
         name: multistep
         update_interval: epoch
         values:
+        - 1
         - 0.1
         - 0.01
-        - 0.001
     regularize_bias: true
     regularize_bn: false
     weight_decay: 0.0
