@@ -13,6 +13,8 @@ config:
       - disk_folder
       LABEL_TYPE: sample_index
       TRANSFORMS:
+      - name: CenterCrop
+        size: 460
       - name: ToTensor
     TRAIN:
       BATCHSIZE_PER_REPLICA: 64
@@ -26,6 +28,8 @@ config:
       LABEL_TYPE: sample_index
       MMAP_MODE: true
       TRANSFORMS:
+      - name: CenterCrop
+        size: 460
       - name: DiscreteRotation
         angles: [0,90,180,270]
       - name: ToTensor
@@ -82,11 +86,11 @@ config:
     nesterov: true
     num_epochs: 100
     param_schedulers:
-      lr:
+      lr: # based on benchmark/linear/lr_linear_breakhis_moco/14602
         auto_lr_scaling:
           auto_scale: false
           base_lr_batch_size: 256
-          base_value: 0.1
+          base_value: 1
         milestones:
         - 60
         - 80
