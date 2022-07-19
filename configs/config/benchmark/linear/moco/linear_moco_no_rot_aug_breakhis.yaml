@@ -13,6 +13,8 @@ config:
       - disk_folder
       LABEL_TYPE: sample_index
       TRANSFORMS:
+      - name: CenterCrop
+        size: 460
       - name: ToTensor
     TRAIN:
       BATCHSIZE_PER_REPLICA: 64
@@ -26,6 +28,8 @@ config:
       LABEL_TYPE: sample_index
       MMAP_MODE: true
       TRANSFORMS:
+      - name: CenterCrop
+        size: 460
       - name: ToTensor
   DISTRIBUTED:
     BACKEND: nccl

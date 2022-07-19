@@ -14,9 +14,7 @@ config:
       LABEL_TYPE: sample_index
       TRANSFORMS:
       - name: Resize
-        size: 256
-      - name: CenterCrop
-        size: 225
+        size: 97
       - name: ToTensor
     TRAIN:
       BATCHSIZE_PER_REPLICA: 512
@@ -31,9 +29,7 @@ config:
       MMAP_MODE: true
       TRANSFORMS:
       - name: Resize
-        size: 256
-      - name: CenterCrop
-        size: 225
+        size: 97
       - name: RandomHorizontalFlip
         p: 0.5
       - name: RandomVerticalFlip
@@ -112,9 +108,9 @@ config:
         name: multistep
         update_interval: epoch
         values:
+        - 1
         - 0.1
         - 0.01
-        - 0.001
     regularize_bias: true
     regularize_bn: false
     weight_decay: 0.0
