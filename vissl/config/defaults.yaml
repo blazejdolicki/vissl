@@ -663,7 +663,7 @@ config:
         flip: False
         fixparams: False
         deltaorth: False
-
+        last_hid_dims: -1
       # ------------------------------------------------------------- #
       # SimCLR-v2 ResNet params that includes selective kernel
       # ------------------------------------------------------------- #

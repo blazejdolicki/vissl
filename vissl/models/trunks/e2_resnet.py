@@ -59,7 +59,8 @@ class E2ResNet(nn.Module):
                             "flip": self.trunk_config.flip,
                             "fixparams": self.trunk_config.fixparams,
                             "conv2triv":self.trunk_config.conv2triv,
-                            "deltaorth": self.trunk_config.deltaorth}
+                            "deltaorth": self.trunk_config.deltaorth,
+                            "last_hid_dims":self.trunk_config.last_hid_dims}
 
         # Current implementation only supports ResNet50 and ResNext50, to add other models add arguments for
         # `block` and `layers` here and in config.
