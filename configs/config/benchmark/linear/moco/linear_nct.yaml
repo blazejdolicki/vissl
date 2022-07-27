@@ -26,20 +26,8 @@ config:
       LABEL_TYPE: sample_index
       MMAP_MODE: true
       TRANSFORMS:
-      - name: RandomHorizontalFlip
-        p: 0.5
-      - name: RandomVerticalFlip
-        p: 0.5
       - name: DiscreteRotation
         angles: [0,90,180,270]
-      - name: ColorJitter
-        brightness: [ 0.7490196078431373, 1.2509803921568627 ]
-        contrast: [ 0.25, 1.75 ]
-        saturation: [ 0.75, 1.25 ]
-        hue: [ -0.04, 0.04 ]
-      - name: RandomAffine
-        degrees: [ 0.0, 0.0 ]
-        translate: [0.041666666666666664, 0.041666666666666664]
       - name: ToTensor
   DISTRIBUTED:
     BACKEND: nccl
@@ -80,7 +68,7 @@ config:
       - - mlp
         - dims:
           - 512
-          - 2
+          - 9
     SYNC_BN_CONFIG:
       CONVERT_BN_TO_SYNC_BN: false
     TRUNK:
@@ -94,7 +82,7 @@ config:
     nesterov: true
     num_epochs: 100
     param_schedulers:
-      lr: # based on benchmark/linear/lr_linear_pcam_moco/14603/
+      lr: # based on benchmark/linear/lr_linear_nct/15005/lr_1
         auto_lr_scaling:
           auto_scale: false
           base_lr_batch_size: 256
