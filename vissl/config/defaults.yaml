@@ -648,7 +648,22 @@ config:
         # for the pixel-wise task. Torchvision default is stride=2 and all other models
         # use this so we set the default as 2.
         LAYER4_STRIDE: 2
-
+      E2_RESNETS:
+        # Standard resnet parameters
+        DEPTH: 50
+        GROUPS: 1
+        ZERO_INIT_RESIDUAL: False
+        WIDTH_PER_GROUP: 64
+        # Equivariant parameters
+        conv2triv: True # use conv2triv following Ceza for regular representations (CIFAR10)s
+        N: 4
+        F: 1.0
+        sigma: 0.45
+        restrict: -1
+        flip: False
+        fixparams: False
+        deltaorth: False
+        last_hid_dims: -1
       # ------------------------------------------------------------- #
       # SimCLR-v2 ResNet params that includes selective kernel
       # ------------------------------------------------------------- #

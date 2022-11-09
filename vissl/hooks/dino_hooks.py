@@ -62,9 +62,17 @@ class DINOHook(ClassyHook):
             else:
                 task_model = get_no_ddp_model(task.model)
                 teacher_model = get_no_ddp_model(task.loss.momentum_teacher)
+                # necessary for equivariant networks
+                is_training = task_model.training
+                task_model.eval()
                 teacher_model.load_state_dict(task_model.state_dict())
+                # if the model was in training mode, switch back to that mode
+                if is_training:
+                    task_model.train()
 
         # Setup SyncBN (useful for the XCiT)
+        # TODO: this causes an error for equivariant models
+        # see: https://www.notion.so/2022_05_30-Inplace-gradient-errors-82c12907904440058b7d4e54e00f678f
         task.loss.momentum_teacher = nn.SyncBatchNorm.convert_sync_batchnorm(
             task.loss.momentum_teacher
         )

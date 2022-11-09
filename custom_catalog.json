@@ -1,0 +1,71 @@
+{
+    "bach": {
+        "train": [
+            "",""
+        ],
+        "test": [
+            "",""
+        ]
+    },
+    "breakhis": {
+        "train": [
+            "/scratch/data/breakhis/train_images.npy",
+            "/scratch/data/breakhis/train_labels.npy"
+        ],
+        "val": [
+            "/scratch/data/breakhis/val_images.npy",
+            "/scratch/data/breakhis/val_labels.npy"
+        ],
+        "test": [
+            "/scratch/data/breakhis/test_images.npy",
+            "/scratch/data/breakhis/test_labels.npy"
+        ]
+    },
+    "nct": {
+        "train": [
+            "/home/bdolicki/thesis/ssl-histo/data/nct/train_images.npy",
+            "/home/bdolicki/thesis/ssl-histo/data/nct/train_labels.npy"
+        ],
+        "val": [
+            "/home/bdolicki/thesis/ssl-histo/data/nct/valid_images.npy",
+            "/home/bdolicki/thesis/ssl-histo/data/nct/valid_labels.npy"
+        ],
+        "test": [
+            "/home/bdolicki/thesis/ssl-histo/data/nct/test_images.npy",
+            "/home/bdolicki/thesis/ssl-histo/data/nct/test_labels.npy"
+        ]
+    },
+    "nct_sample": {
+        "train": [
+            "/home/bdolicki/thesis/ssl-histo/data/nct/train_sample_1000_images.npy",
+            "/home/bdolicki/thesis/ssl-histo/data/nct/train_sample_1000_labels.npy"
+        ],
+        "val": [
+            "/home/bdolicki/thesis/ssl-histo/data/nct/valid_sample_1000_images.npy",
+            "/home/bdolicki/thesis/ssl-histo/data/nct/valid_sample_1000_labels.npy"
+        ],
+        "test": [
+            "/home/bdolicki/thesis/ssl-histo/data/nct/test_sample_1000_images.npy",
+            "/home/bdolicki/thesis/ssl-histo/data/nct/test_sample_1000_labels.npy"
+        ]
+    },
+    "dummy_data_folder":{
+          "train": [
+            "", ""
+          ],
+          "val": [
+            "", ""
+          ]
+    },
+    "pcam": {
+        "train": [
+            "", ""
+        ],
+        "val": [
+            "", ""
+        ],
+        "test": [
+            "", ""
+        ]
+    }
+}
